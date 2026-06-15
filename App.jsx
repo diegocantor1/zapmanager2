@@ -704,7 +704,7 @@ Use esse mês — você merece!
               <textarea
                 value={multiTexto}
                 onChange={e => setMultiTexto(e.target.value)}
-                placeholder={"Cole a primeira conversa aqui...
+                placeholder="Cole as conversas aqui separadas por --- entre cada uma
 
 ---
 
