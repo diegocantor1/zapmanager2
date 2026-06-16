@@ -704,7 +704,7 @@ Use esse mês — você merece!
               <textarea
                 value={multiTexto}
                 onChange={e => setMultiTexto(e.target.value)}
-                placeholder="Cole as conversas aqui separadas por --- entre cada uma
+                placeholder="Cole as conversas aqui"
 
 ---
 
@@ -1609,5 +1609,6 @@ export default function App() {
 
 const _root = document.getElementById("root");
 if (_root && !_root._mounted) { _root._mounted = true; createRoot(_root).render(<App />); }
+
 
 
