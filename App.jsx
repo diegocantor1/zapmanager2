@@ -705,14 +705,6 @@ Use esse mês — você merece!
                 value={multiTexto}
                 onChange={e => setMultiTexto(e.target.value)}
                 placeholder="Cole as conversas aqui"
-
----
-
-Cole a segunda conversa aqui...
-
----
-
-Cole a terceira conversa aqui..."}
                 rows={8}
                 style={{ ...{ width:"100%", background:"#060a10", border:`1px solid ${G.border}`, borderRadius:10, padding:"11px 13px", color:G.text, fontSize:13, fontFamily:"inherit", outline:"none" }, lineHeight:1.6, resize:"vertical", marginBottom:12 }}
               />
