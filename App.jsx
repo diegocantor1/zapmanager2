@@ -323,7 +323,7 @@ function AppCliente({ user, onLogout }) {
 
   const plano = PLANOS[user.plano] || {};
   const mods = plano.modulos || [];
-  const isMus = false; // Conta universal — sem diferença por segmento
+  const isMus = user.nome === "Diego Cantor";
   const showT = (m, t = "ok") => { setToast({ m, t }); setTimeout(() => setToast(null), 3000); };
   const inp = { width: "100%", background: "#060a10", border: `1px solid ${G.border}`, borderRadius: 10, padding: "11px 13px", color: G.text, fontSize: 14, fontFamily: "inherit", outline: "none" };
 
@@ -497,7 +497,7 @@ function AppCliente({ user, onLogout }) {
     { id: "agenda", icon: "📅", label: "Agenda" },
     { id: "retornos", icon: "📌", label: "Retornos" },
     { id: "mensagens", icon: "🗨️", label: "Mensagens" },
-    { id: "vitrine", icon: "🌟", label: "Vitrine" },
+    ...(isMus ? [{ id: "vitrine", icon: "🌟", label: "Vitrine" }] : []),
     { id: "config", icon: "⚙️", label: "Config" },
   ];
 
