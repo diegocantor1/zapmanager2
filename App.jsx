@@ -61,7 +61,7 @@ const chamarIA = async (messages, system, forceClaude = false) => {
 // ── DADOS ─────────────────────────────────────────────────────────────────────
 const DB = { usuarios: [
   { id: "admin", role: "admin", nome: "Diego", email: "admin@zapmanager.com.br", senha: "admin123" },
-  { id: "escola1", role: "cliente", nome: "Bright English", email: "bright@email.com", senha: "bright123", plano: "starter", negocio: "Bright English", pix: "11988887777",
+  { id: "escola1", role: "cliente", nome: "Bright English", email: "bright@email.com", senha: "bright123", plano: "starter", segmento: "escola", negocio: "Bright English", pix: "11988887777",
     alunos: [
       { id: 1, nome: "Sofia Barros", responsavel: "Ana Barros", whatsapp: "11999990001", valor: 350, vencimento: 5, status: "pago", aniversario: "06-15" },
       { id: 2, nome: "Lucas Mendes", responsavel: "Carlos Mendes", whatsapp: "11999990002", valor: 350, vencimento: 10, status: "pendente", aniversario: "06-22" },
@@ -83,7 +83,7 @@ const DB = { usuarios: [
     ],
     mensagem: "Olá {responsavel}! 👋\n\nA mensalidade de *{aluno}* ref. *{mes}* no valor de *R$ {valor}* vence dia *{vencimento}*.\n\nPIX: {pix}\n\nQualquer dúvida estamos à disposição! 😊\n— {nome_escola}",
   },
-  { id: "musico1", role: "cliente", nome: "Diego Cantor", email: "diego@diegocantor.com", senha: "diego123", plano: "total", negocio: "Diego Cantor", pix: "11977770000",
+  { id: "musico1", role: "cliente", nome: "Diego Cantor", email: "diego@diegocantor.com", senha: "diego123", plano: "total", segmento: "musico", negocio: "Diego Cantor", pix: "11977770000",
     alunos: [], mensagem: "",
     orcamentos: [
       { id: 1, cliente: "Família Rodrigues", contato: "11988880001", email: "rodrigues@email.com", tipo: "Casamento", data: "2025-06-14", valor_pedido: 4500, valor_fechado: 4200, status: "fechado", local: "Vila Olímpia SP", obs: "Cerimônia + recepção 4h", aniversario: "06-20" },
@@ -323,7 +323,7 @@ function AppCliente({ user, onLogout }) {
 
   const plano = PLANOS[user.plano] || {};
   const mods = plano.modulos || [];
-  const isMus = user.nome === "Diego Cantor";
+  const isMus = user.segmento === "musico";
   const showT = (m, t = "ok") => { setToast({ m, t }); setTimeout(() => setToast(null), 3000); };
   const inp = { width: "100%", background: "#060a10", border: `1px solid ${G.border}`, borderRadius: 10, padding: "11px 13px", color: G.text, fontSize: 14, fontFamily: "inherit", outline: "none" };
 
