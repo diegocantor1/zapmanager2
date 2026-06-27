@@ -298,6 +298,7 @@ function AppCliente({ user, onLogout }) {
     cor: "#22d3ee",
     tipoCapa: "foto",
     fotoCapa: "",
+    fotoCapaPos: 50,
     logo: "",
     instagram: "",
     whatsapp: user.pix || "",
@@ -1144,7 +1145,7 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
                   <div style={{ fontSize: 11, color: G.muted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>Foto de capa</div>
                   <label style={{ display:"block", background:"#060a10", border:`2px dashed ${vitrine.fotoCapa?"#22d3ee":G.border}`, borderRadius:12, padding:vitrine.fotoCapa?0:"20px", cursor:"pointer", overflow:"hidden", textAlign:"center" }}>
                     {vitrine.fotoCapa
-                      ? <img src={vitrine.fotoCapa} alt="capa" style={{ width:"100%", height:160, objectFit:"cover", display:"block" }} />
+                      ? <img src={vitrine.fotoCapa} alt="capa" style={{ width:"100%", height:160, objectFit:"cover", objectPosition: `center ${vitrine.fotoCapaPos}%`, display:"block" }} />
                       : <div style={{ color:G.muted, fontSize:13 }}>📸 Clique para fazer upload da foto<br/><span style={{ fontSize:11 }}>JPG ou PNG • Recomendado: vertical</span></div>
                     }
                     <input type="file" accept="image/*" style={{ display:"none" }} onChange={e => {
@@ -1153,6 +1154,7 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
                     }} />
                   </label>
                   {vitrine.fotoCapa && <button onClick={() => setVitrine({...vitrine, fotoCapa:""})} style={{ marginTop:6, background:"transparent", border:"none", color:"#f87171", fontSize:12, cursor:"pointer", fontFamily:"inherit" }}>✕ Remover foto</button>}
+                  {vitrine.fotoCapa && <div style={{ marginTop: 10 }}><div style={{ fontSize: 11, color: G.muted, fontWeight: 700, marginBottom: 6 }}>Ajustar enquadramento</div><input type="range" min="0" max="100" value={vitrine.fotoCapaPos} onChange={e => setVitrine({...vitrine, fotoCapaPos: Number(e.target.value)})} style={{ width: "100%" }} /><div style={{ fontSize: 10, color: G.muted, display: "flex", justifyContent: "space-between" }}><span>Topo</span><span>Base</span></div></div>}
                 </div>}
 
                 {/* Upload logo */}
@@ -1254,7 +1256,7 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
               {/* Header com tipo de capa */}
               {vitrine.tipoCapa === "foto" && vitrine.fotoCapa
                 ? <div style={{ position:"relative", height:300, overflow:"hidden" }}>
-                    <img src={vitrine.fotoCapa} alt="capa" style={{ width:"100%", height:"100%", objectFit:"cover" }} />
+                    <img src={vitrine.fotoCapa} alt="capa" style={{ width:"100%", height:"100%", objectFit:"cover", objectPosition: `center ${vitrine.fotoCapaPos}%` }} />
                     <div style={{ position:"absolute", inset:0, background:"linear-gradient(to bottom, transparent 40%, rgba(6,10,16,0.95) 100%)" }} />
                     <div style={{ position:"absolute", bottom:20, left:20, right:20 }}>
                       <div style={{ fontFamily:"Syne,sans-serif", fontSize:28, fontWeight:800, color:vitrine.cor, textShadow:"0 2px 8px rgba(0,0,0,0.8)" }}>{vitrine.nome||nomeN}</div>
