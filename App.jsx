@@ -1050,72 +1050,96 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
                   const script = document.createElement("script");
                   script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
                   document.head.appendChild(script);
-                  await new Promise(r => script.onload = r);
                   const { jsPDF } = window.jspdf;
                   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
                   const cor = vitrine.cor;
                   const hexToRgb = h => { const r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16); return [r,g,b]; };
                   const [cr,cg,cb] = hexToRgb(cor);
-                  // Header
+                  const getImgFormat = (dataUrl) => dataUrl.includes("image/png") ? "PNG" : "JPEG";
                   doc.setFillColor(6,10,16);
                   doc.rect(0,0,210,297,"F");
-                  doc.setFillColor(cr,cg,cb);
-                  doc.rect(0,0,210,8,"F");
-                  // Nome
+                  if (vitrine.tipoCapa === "foto" && vitrine.fotoCapa) {
+                    try { doc.addImage(vitrine.fotoCapa, getImgFormat(vitrine.fotoCapa), 0, 0, 210, 220); } catch(e) {}
+                    doc.setFillColor(6,10,16);
+                    doc.rect(0,180,210,117,"F");
+                    doc.setFillColor(cr,cg,cb);
+                    doc.rect(0,180,210,2,"F");
+                  } else {
+                    doc.setFillColor(cr,cg,cb);
+                    doc.rect(0,0,210,8,"F");
+                  }
+                  if (vitrine.tipoCapa === "logo" && vitrine.logo) {
+                    try { doc.addImage(vitrine.logo, getImgFormat(vitrine.logo), 75, 40, 60, 40); } catch(e) {}
+                  }
                   doc.setTextColor(cr,cg,cb);
-                  doc.setFontSize(28);
+                  doc.setFontSize(30);
                   doc.setFont("helvetica","bold");
-                  doc.text(vitrine.nome || nomeN, 20, 35);
-                  // Título
+                  doc.text(vitrine.nome || nomeN, 20, 205);
                   doc.setTextColor(200,210,220);
                   doc.setFontSize(14);
                   doc.setFont("helvetica","normal");
-                  doc.text(vitrine.titulo, 20, 45);
-                  // Linha divisória
-                  doc.setDrawColor(cr,cg,cb);
-                  doc.setLineWidth(0.5);
-                  doc.line(20,52,190,52);
-                  // Bio
-                  if (vitrine.bio) {
-                    doc.setTextColor(180,190,200);
-                    doc.setFontSize(11);
-                    const bioLines = doc.splitTextToSize(vitrine.bio, 170);
-                    doc.text(bioLines, 20, 62);
-                  }
-                  // Destaques
-                  const dests = vitrine.destaques.filter(d => d.trim());
-                  if (dests.length > 0) {
-                    doc.setTextColor(cr,cg,cb);
-                    doc.setFontSize(13);
-                    doc.setFont("helvetica","bold");
-                    doc.text("DESTAQUES", 20, 95);
-                    doc.setFont("helvetica","normal");
-                    doc.setFontSize(11);
-                    doc.setTextColor(200,210,220);
-                    dests.forEach((d, i) => { doc.text("• " + d, 20, 105 + i*10); });
-                  }
-                  // Contatos
-                  doc.setTextColor(cr,cg,cb);
-                  doc.setFontSize(13);
-                  doc.setFont("helvetica","bold");
-                  doc.text("CONTATOS & REDES", 20, 150);
-                  doc.setFont("helvetica","normal");
-                  doc.setFontSize(11);
-                  doc.setTextColor(200,210,220);
-                  let cy = 160;
-                  if (vitrine.whatsapp) { doc.text("WhatsApp: " + vitrine.whatsapp, 20, cy); cy += 9; }
-                  if (vitrine.instagram) { doc.text("Instagram: @" + vitrine.instagram, 20, cy); cy += 9; }
-                  if (vitrine.youtube) { doc.text("YouTube: " + vitrine.youtube, 20, cy); cy += 9; }
-                  if (vitrine.tiktok) { doc.text("TikTok: @" + vitrine.tiktok, 20, cy); cy += 9; }
-                  if (vitrine.spotify) { doc.text("Spotify: " + vitrine.spotify, 20, cy); cy += 9; }
-                  // Footer
+                  doc.text(vitrine.titulo || "", 20, 217);
                   doc.setFillColor(cr,cg,cb);
                   doc.rect(0,289,210,8,"F");
                   doc.setTextColor(6,10,16);
                   doc.setFontSize(9);
                   doc.setFont("helvetica","bold");
-                  doc.text("Gerado por ZapManager • zapmanager.app", 105, 294, { align: "center" });
+                  doc.text("Gerado por ZapManager", 105, 294, { align: "center" });
+                  doc.addPage();
+                  doc.setFillColor(6,10,16);
+                  doc.rect(0,0,210,297,"F");
+                  doc.setFillColor(cr,cg,cb);
+                  doc.rect(0,0,210,8,"F");
+                  doc.setTextColor(cr,cg,cb);
+                  doc.setFontSize(22);
+                  doc.setFont("helvetica","bold");
+                  doc.text("RELEASE", 20, 28);
+                  doc.setDrawColor(cr,cg,cb);
+                  doc.setLineWidth(0.5);
+                  doc.line(20,33,190,33);
+                  let cy2 = 46;
+                  if (vitrine.bio) {
+                    doc.setTextColor(200,210,220);
+                    doc.setFontSize(11);
+                    doc.setFont("helvetica","normal");
+                    const bioLines = doc.splitTextToSize(vitrine.bio, 170);
+                    doc.text(bioLines, 20, cy2);
+                    cy2 += bioLines.length * 6 + 14;
+                  }
+                  const dests = vitrine.destaques.filter(d => d.trim());
+                  if (dests.length > 0) {
+                    doc.setTextColor(cr,cg,cb);
+                    doc.setFontSize(13);
+                    doc.setFont("helvetica","bold");
+                    doc.text("DESTAQUES", 20, cy2);
+                    cy2 += 10;
+                    doc.setFont("helvetica","normal");
+                    doc.setFontSize(11);
+                    doc.setTextColor(200,210,220);
+                    dests.forEach((d) => { doc.text("- " + d, 20, cy2); cy2 += 8; });
+                    cy2 += 8;
+                  }
+                  doc.setTextColor(cr,cg,cb);
+                  doc.setFontSize(13);
+                  doc.setFont("helvetica","bold");
+                  doc.text("CONTATOS & REDES", 20, cy2);
+                  cy2 += 10;
+                  doc.setFont("helvetica","normal");
+                  doc.setFontSize(11);
+                  doc.setTextColor(200,210,220);
+                  if (vitrine.whatsapp) { doc.text("WhatsApp: " + vitrine.whatsapp, 20, cy2); cy2 += 9; }
+                  if (vitrine.instagram) { doc.text("Instagram: @" + vitrine.instagram, 20, cy2); cy2 += 9; }
+                  if (vitrine.youtube) { doc.text("YouTube: " + vitrine.youtube, 20, cy2); cy2 += 9; }
+                  if (vitrine.tiktok) { doc.text("TikTok: @" + vitrine.tiktok, 20, cy2); cy2 += 9; }
+                  if (vitrine.spotify) { doc.text("Spotify: " + vitrine.spotify, 20, cy2); cy2 += 9; }
+                  doc.setFillColor(cr,cg,cb);
+                  doc.rect(0,289,210,8,"F");
+                  doc.setTextColor(6,10,16);
+                  doc.setFontSize(9);
+                  doc.setFont("helvetica","bold");
+                  doc.text("Gerado por ZapManager", 105, 294, { align: "center" });
                   doc.save((vitrine.nome || nomeN).replace(/ /g,"_") + "_presskit.pdf");
+                  await new Promise(r => script.onload = r);
                   showT("PDF gerado com sucesso! 🎉");
                 } catch(e) { showT("Erro ao gerar PDF. Tente novamente.", "e"); }
                 setPdfLoad(false);
