@@ -1059,26 +1059,45 @@ Como nosso cliente especial, vocÃª tem uma proposta exclusiva esperando por vocÃ
                   doc.setFillColor(6,10,16);
                   doc.rect(0,0,210,297,"F");
                   if (vitrine.tipoCapa === "foto" && vitrine.fotoCapa) {
-                    try { doc.addImage(vitrine.fotoCapa, getImgFormat(vitrine.fotoCapa), 0, 0, 210, 220); } catch(e) {}
-                    doc.setFillColor(6,10,16);
-                    doc.rect(0,180,210,117,"F");
+                    try {
+                      const img = new Image();
+                      img.src = vitrine.fotoCapa;
+                    } catch(e) {}
+                    try {
+                      const props = doc.getImageProperties(vitrine.fotoCapa);
+                      const pageW = 210, pageH = 297;
+                      const imgRatio = props.width / props.height;
+                      const pageRatio = pageW / pageH;
+                      let drawW, drawH, offX, offY;
+                      if (imgRatio > pageRatio) {
+                        drawH = pageH;
+                        drawW = pageH * imgRatio;
+                        offX = (pageW - drawW) / 2;
+                        offY = 0;
+                      } else {
+                        drawW = pageW;
+                        drawH = pageW / imgRatio;
+                        offX = 0;
+                        offY = (pageH - drawH) / 2;
+                      }
+                      doc.addImage(vitrine.fotoCapa, getImgFormat(vitrine.fotoCapa), offX, offY, drawW, drawH);
+                    } catch(e) {}
+                  } else if (vitrine.tipoCapa === "logo" && vitrine.logo) {
                     doc.setFillColor(cr,cg,cb);
-                    doc.rect(0,180,210,2,"F");
+                    doc.rect(0,0,210,8,"F");
+                    try { doc.addImage(vitrine.logo, getImgFormat(vitrine.logo), 75, 120, 60, 60); } catch(e) {}
+                    doc.setTextColor(cr,cg,cb);
+                    doc.setFontSize(26);
+                    doc.setFont("helvetica","bold");
+                    doc.text(vitrine.nome || nomeN, 105, 200, { align: "center" });
                   } else {
                     doc.setFillColor(cr,cg,cb);
                     doc.rect(0,0,210,8,"F");
+                    doc.setTextColor(cr,cg,cb);
+                    doc.setFontSize(30);
+                    doc.setFont("helvetica","bold");
+                    doc.text(vitrine.nome || nomeN, 105, 150, { align: "center" });
                   }
-                  if (vitrine.tipoCapa === "logo" && vitrine.logo) {
-                    try { doc.addImage(vitrine.logo, getImgFormat(vitrine.logo), 75, 40, 60, 40); } catch(e) {}
-                  }
-                  doc.setTextColor(cr,cg,cb);
-                  doc.setFontSize(30);
-                  doc.setFont("helvetica","bold");
-                  doc.text(vitrine.nome || nomeN, 20, 205);
-                  doc.setTextColor(200,210,220);
-                  doc.setFontSize(14);
-                  doc.setFont("helvetica","normal");
-                  doc.text(vitrine.titulo || "", 20, 217);
                   doc.setFillColor(cr,cg,cb);
                   doc.rect(0,289,210,8,"F");
                   doc.setTextColor(6,10,16);
@@ -1093,7 +1112,7 @@ Como nosso cliente especial, vocÃª tem uma proposta exclusiva esperando por vocÃ
                   doc.setTextColor(cr,cg,cb);
                   doc.setFontSize(22);
                   doc.setFont("helvetica","bold");
-                  doc.text("RELEASE", 20, 28);
+                  doc.setTextColor(200,210,220); doc.setFontSize(11); doc.setFont("helvetica","normal"); doc.text((vitrine.nome || nomeN) + " - " + (vitrine.titulo || ""), 20, 18); doc.text("RELEASE", 20, 28);
                   doc.setDrawColor(cr,cg,cb);
                   doc.setLineWidth(0.5);
                   doc.line(20,33,190,33);
@@ -1144,7 +1163,7 @@ Como nosso cliente especial, vocÃª tem uma proposta exclusiva esperando por vocÃ
                 } catch(e) { showT("Erro ao gerar PDF. Tente novamente.", "e"); }
                 setPdfLoad(false);
               }} style={{ background: `linear-gradient(135deg,#f87171,#dc2626)`, color: "#fff", border: "none", borderRadius: 10, padding: "9px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13, fontFamily: "inherit", display: "flex", alignItems: "center", gap: 6 }}>
-                {pdfLoad ? <span style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} /> : "ðŸ“„"} Press Kit PDF
+                {pdfLoad ? <span style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} /> : "ðŸ“„"} Release PDF
               </button>
             </div>
           </div>
