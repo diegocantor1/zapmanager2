@@ -1049,7 +1049,7 @@ Como nosso cliente especial, vocÃª tem uma proposta exclusiva esperando por vocÃ
                 try {
                   const script = document.createElement("script");
                   script.src = "https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js";
-                  document.head.appendChild(script);
+                  document.head.appendChild(script); await new Promise((res, rej) => { script.onload = res; script.onerror = rej; });
                   const { jsPDF } = window.jspdf;
                   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
                   const cor = vitrine.cor;
