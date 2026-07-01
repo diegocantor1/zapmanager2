@@ -306,6 +306,8 @@ function AppCliente({ user, onLogout }) {
     tiktok: "",
     spotify: "",
     destaques: ["", "", ""],
+    corFundoPdf: "#060a10",
+    corTextoPdf: "#e8edf5",
   });
   const [vitrinePreview, setVitrinePreview] = useState(false);
   const [pdfLoad, setPdfLoad] = useState(false);
@@ -1054,9 +1056,9 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
                   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
                   const cor = vitrine.cor;
                   const hexToRgb = h => { const r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16); return [r,g,b]; };
-                  const [cr,cg,cb] = hexToRgb(cor);
+                  const [cr,cg,cb] = hexToRgb(cor); const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10"); const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5"); const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10"); const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
                   const getImgFormat = (dataUrl) => dataUrl.includes("image/png") ? "PNG" : "JPEG";
-                  doc.setFillColor(6,10,16);
+                  doc.setFillColor(bgr,bgg,bgb);
                   doc.rect(0,0,210,297,"F");
                   if (vitrine.tipoCapa === "foto" && vitrine.fotoCapa) {
                     try {
@@ -1105,7 +1107,7 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
                   doc.setFont("helvetica","bold");
                   doc.text("Gerado por ZapManager", 105, 294, { align: "center" });
                   doc.addPage();
-                  doc.setFillColor(6,10,16);
+                  doc.setFillColor(bgr,bgg,bgb);
                   doc.rect(0,0,210,297,"F");
                   doc.setFillColor(cr,cg,cb);
                   doc.rect(0,0,210,8,"F");
@@ -1228,13 +1230,48 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
 
               <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: 20 }}>
                 <div style={{ fontWeight: 700, marginBottom: 14 }}>🎨 Cor do tema</div>
-                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
+</div>
+<div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: 20, marginTop: 14 }}>
+<div style={{ fontWeight: 700, marginBottom: 14 }}>Cores do Release PDF</div>
+<div style={{ marginBottom: 12 }}>
+<div style={{ fontSize: 11, color: G.muted, fontWeight: 700, marginBottom: 8 }}>Fundo</div>
+<input type="color" value={vitrine.corFundoPdf} onChange={e => setVitrine({...vitrine, corFundoPdf: e.target.value})} style={{ width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, cursor: "pointer" }} />
+</div>
+<div>
+<div style={{ fontSize: 11, color: G.muted, fontWeight: 700, marginBottom: 8 }}>Texto</div>
+<input type="color" value={vitrine.corTextoPdf} onChange={e => setVitrine({...vitrine, corTextoPdf: e.target.value})} style={{ width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, cursor: "pointer" }} />
+</div>
+<div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: 20 }}>
+<div style={{ fontWeight: 700, marginBottom: 14 }}>🎨 Cores do Release PDF</div>
+<div style={{ fontSize: 12, color: G.muted, marginBottom: 12 }}>Customize as cores da capa e texto</div>
+<div style={{ marginBottom: 12 }}>
+<div style={{ fontSize: 11, color: G.muted, fontWeight: 700, marginBottom: 8 }}>Fundo</div>
+<input type="color" value={vitrine.corFundoPdf} onChange={e => setVitrine({...vitrine, corFundoPdf: e.target.value})} style={{ width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, background: "#060a10", cursor: "pointer", padding: 2 }} />
+</div>
+<div>
+<div style={{ fontSize: 11, color: G.muted, fontWeight: 700, marginBottom: 8 }}>Texto</div>
+<input type="color" value={vitrine.corTextoPdf} onChange={e => setVitrine({...vitrine, corTextoPdf: e.target.value})} style={{ width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, background: "#060a10", cursor: "pointer", padding: 2 }} />
+</div>
+</div>                <div style={{ display: "flex", gap: 10, flexWrap: "wrap" }}>
                   {["#22d3ee","#a78bfa","#f59e0b","#4ade80","#f87171","#fb923c","#e879f9","#ffffff"].map(cor => (
                     <div key={cor} onClick={() => setVitrine({...vitrine, cor})} style={{ width: 36, height: 36, borderRadius: "50%", background: cor, cursor: "pointer", border: vitrine.cor === cor ? "3px solid #fff" : "3px solid transparent", boxShadow: vitrine.cor === cor ? `0 0 12px ${cor}` : "none", transition: "all 0.2s" }} />
                   ))}
                 </div>
                 <input type="color" value={vitrine.cor} onChange={e => setVitrine({...vitrine, cor: e.target.value})} style={{ marginTop: 12, width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, background: "#060a10", cursor: "pointer", padding: 2 }} />
                 <div style={{ fontSize: 11, color: G.muted, marginTop: 6 }}>Ou escolha qualquer cor personalizada</div>
+              </div>
+
+              <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: 20 }}>
+                <div style={{ fontWeight: 700, marginBottom: 14 }}>🖨 Cores do Release PDF</div>
+                <div style={{ fontSize: 12, color: G.muted, marginBottom: 14 }}>Personalize o fundo e o texto do PDF (independente da cor do tema)</div>
+                <div style={{ marginBottom: 14 }}>
+                  <div style={{ fontSize: 11, color: G.muted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>Cor de fundo</div>
+                  <input type="color" value={vitrine.corFundoPdf} onChange={e => setVitrine({...vitrine, corFundoPdf: e.target.value})} style={{ width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, background: "#060a10", cursor: "pointer", padding: 2 }} />
+                </div>
+                <div>
+                  <div style={{ fontSize: 11, color: G.muted, fontWeight: 700, textTransform: "uppercase", letterSpacing: "0.07em", marginBottom: 6 }}>Cor do texto</div>
+                  <input type="color" value={vitrine.corTextoPdf} onChange={e => setVitrine({...vitrine, corTextoPdf: e.target.value})} style={{ width: "100%", height: 36, border: `1px solid ${G.border}`, borderRadius: 8, background: "#060a10", cursor: "pointer", padding: 2 }} />
+                </div>
               </div>
 
               <div style={{ background: G.surface, border: `1px solid ${G.border}`, borderRadius: 14, padding: 20 }}>
