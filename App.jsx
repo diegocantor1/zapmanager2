@@ -1056,7 +1056,6 @@ Como nosso cliente especial, vocÃª tem uma proposta exclusiva esperando por vocÃ
                   const doc = new jsPDF({ orientation: "portrait", unit: "mm", format: "a4" });
                   const cor = vitrine.cor;
                   const hexToRgb = h => { const r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16); return [r,g,b]; };
-                  const [cr,cg,cb] = hexToRgb(cor); const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10"); const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5"); const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10"); const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
                   const getImgFormat = (dataUrl) => dataUrl.includes("image/png") ? "PNG" : "JPEG";
                   doc.setFillColor(bgr,bgg,bgb);
                   doc.rect(0,0,210,297,"F");
