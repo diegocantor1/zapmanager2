@@ -1046,8 +1046,8 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
             <div style={{ display: "flex", gap: 8 }}>
               <button onClick={() => setVitrinePreview(true)} style={{ background: "transparent", border: `1px solid ${G.border}`, color: G.text, borderRadius: 10, padding: "9px 14px", fontWeight: 600, cursor: "pointer", fontSize: 13, fontFamily: "inherit" }}>👁️ Preview</button>
               <button onClick={async () => {
-const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10");
-const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
+// const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10");
+// const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
                 setPdfLoad(true);
                 await new Promise(r => setTimeout(r, 100));
                 try {
