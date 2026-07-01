@@ -1057,8 +1057,6 @@ Como nosso cliente especial, você tem uma proposta exclusiva esperando por voc�
                   const cor = vitrine.cor;
                   const hexToRgb = h => { const r = parseInt(h.slice(1,3),16), g = parseInt(h.slice(3,5),16), b = parseInt(h.slice(5,7),16); return [r,g,b]; };
 const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10");
-const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
-                  const getImgFormat = (dataUrl) => dataUrl.includes("image/png") ? "PNG" : "JPEG";
                   doc.setFillColor(bgr,bgg,bgb);
                   doc.rect(0,0,210,297,"F");
                   if (vitrine.tipoCapa === "foto" && vitrine.fotoCapa) {
@@ -1168,6 +1166,8 @@ const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
               }} style={{ background: `linear-gradient(135deg,#f87171,#dc2626)`, color: "#fff", border: "none", borderRadius: 10, padding: "9px 14px", fontWeight: 700, cursor: "pointer", fontSize: 13, fontFamily: "inherit", display: "flex", alignItems: "center", gap: 6 }}>
                 {pdfLoad ? <span style={{ width: 14, height: 14, border: "2px solid rgba(255,255,255,0.3)", borderTopColor: "#fff", borderRadius: "50%", display: "inline-block", animation: "spin 0.7s linear infinite" }} /> : "📄"} Release PDF
               </button>
+const [bgr,bgg,bgb] = hexToRgb(vitrine.corFundoPdf || "#060a10");
+const [txr,txg,txb] = hexToRgb(vitrine.corTextoPdf || "#e8edf5");
             </div>
           </div>
 
